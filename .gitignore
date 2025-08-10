@@ -1,0 +1,10 @@
+/target
+server.log
+.env
+/target
+target
+/target/*
+
+/bin
+bin
+/bin/*

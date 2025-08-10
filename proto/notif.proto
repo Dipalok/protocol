@@ -1,0 +1,44 @@
+syntax = "proto3";
+package unotify.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message Envelope {
+  string id = 1; // client-generated UUID
+  string trace_id = 2;
+  Channel channel = 3;
+  int32 priority = 4;
+  google.protobuf.Timestamp created_at = 5;
+  string auth_token = 6; // optional (avoid jwt if you want)
+  oneof payload {
+    Email email = 20;
+    Sms sms = 21;
+  }
+}
+
+enum Channel {
+  CHANNEL_UNKNOWN = 0;
+  EMAIL = 1;
+  SMS = 2;
+  PUSH = 3;
+}
+
+message Email {
+  string from = 1;
+  repeated string to = 2;
+  string subject = 3;
+  string body = 4;
+  map<string,string> headers = 5;
+}
+
+message Sms {
+  string from = 1;
+  string to = 2;
+  string body = 3;
+}
+
+message Ack {
+  string message_id = 1;
+  bool ok = 2;
+  string error = 3;
+}
